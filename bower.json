@@ -1,0 +1,27 @@
+{
+  "name": "gitprofile",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Harxy/gitprofile",
+  "authors": [
+    "Paul Harker <harkerp@gmail.com>"
+  ],
+  "description": "angular app",
+  "keywords": [
+    "fun",
+    "times"
+  ],
+  "license": "Harx enterprises",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.3",
+    "angular-resource": "~1.4.3"
+  }
+}
