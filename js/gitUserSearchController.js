@@ -1,4 +1,4 @@
-githubUserSearch.controller('GitUserSearchController', [function() {
+githubUserSearch.controller('GitUserSearchController', ['$resource', function($resource) {
 var self = this;
   self.doSearch = function() {
     self.searchResult = {
