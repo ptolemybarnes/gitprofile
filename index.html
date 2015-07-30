@@ -22,7 +22,7 @@
       <ul class="list-group" ng-repeat="user in searchCtrl.searchResult.items">
         <li>
           <img ng-src="{{user.avatar_url}}&s=50">
-          <a ng_href="{{user.html_url}}">{{user.login}}</a>
+          <a class="githubUser" ng_href="{{user.html_url}}">{{user.login}}</a>
         </li>
       </ul>
     </div>

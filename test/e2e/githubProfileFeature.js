@@ -11,11 +11,14 @@ describe('Github profile finder', function() {
 
     expect(browser.getTitle()).toEqual('Github user search');
   });
-  it ('finds profiles', function(){
-    searchBox.sendKeys('spike01');
+  it ('finds one profile', function(){
+    searchBox.sendKeys('spike');
     searchButton.click();
-
-    expect(element(by.binding('user.login')).getText()).
-      toEqual('spike01')
+    var profiles = element.all(by.repeater('user in searchCtrl.searchResult.items'))
+    var list = element.all(by.css('ul li'));
+      expect(list.last().getText()).toEqual(profiles.last().getText());
   });
+
+
+
 });
