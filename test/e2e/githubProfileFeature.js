@@ -28,6 +28,7 @@ describe('Github profile finder', function() {
     expect(image.count()).toEqual(counts);
     });
   })
+  
   it ('each returned item should have a link', function(){
     searchBox.sendKeys('spike');
     searchButton.click();

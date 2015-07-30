@@ -1,9 +1,9 @@
-githubUserSearch.controller('GitUserSearchController', ['Search', function(Search) {
+githubUserSearch.controller('GitUserSearchController', ['UserInfo', function(UserInfo) {
 var self = this;
   self.doSearch = function() {
-    Search.query(self.searchTerm)
-    .then(function(response){
-      self.searchResult = response.data;
+    UserInfo.query(self.searchTerm)
+    .then(function(responses){
+      self.searchResult = responses;
     })
   };
 }]);

@@ -20,10 +20,15 @@ describe('when searching for a user', function() {
   beforeEach(inject(function ($httpBackend) {
     httpBackend = $httpBackend
     httpBackend
-      .expectGET("https://api.github.com/search/users?q=hello")
+      .expectGET("https://api.github.com/search/users?access_token=bc30b02f285326683292881a58e2131572099fac&q=hello")
       .respond(
         { items: items }
       );
+      httpBackend
+        .whenGET("https://github.com/tansaku?access_token=bc30b02f285326683292881a58e2131572099fac")
+        .respond(
+          items[0]
+        );
     }));
 
     afterEach(function() {
@@ -40,12 +45,7 @@ describe('when searching for a user', function() {
     {
       "login": "tansaku",
       "avatar_url": "https://avatars.githubusercontent.com/u/30216?v=3",
-      "html_url": "https://github.com/tansaku"
-    },
-    {
-      "login": "stephenlloyd",
-      "avatar_url": "https://avatars.githubusercontent.com/u/196474?v=3",
-      "html_url": "https://github.com/stephenlloyd"
+      "url": "https://github.com/tansaku"
     }
   ];
 
@@ -53,6 +53,6 @@ describe('when searching for a user', function() {
     ctrl.searchTerm = 'hello';
     ctrl.doSearch();
     httpBackend.flush();
-    expect(ctrl.searchResult.items).toEqual(items);
+    expect(ctrl.searchResult).toEqual(items);
   });
 });
