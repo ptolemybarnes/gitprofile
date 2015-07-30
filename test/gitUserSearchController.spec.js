@@ -20,12 +20,12 @@ describe('when searching for a user', function() {
   beforeEach(inject(function ($httpBackend) {
     httpBackend = $httpBackend
     httpBackend
-      .expectGET("https://api.github.com/search/users?access_token=bc30b02f285326683292881a58e2131572099fac&q=hello")
+      .expectGET("https://api.github.com/search/users?access_token=000b78cf358b659afabc54a0253a13e91969d50c&q=hello")
       .respond(
         { items: items }
       );
       httpBackend
-        .whenGET("https://github.com/tansaku?access_token=bc30b02f285326683292881a58e2131572099fac")
+        .whenGET("https://github.com/tansaku?access_token=000b78cf358b659afabc54a0253a13e91969d50c")
         .respond(
           items[0]
         );
