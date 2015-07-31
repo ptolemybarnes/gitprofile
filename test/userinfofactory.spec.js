@@ -1,10 +1,10 @@
 describe('factory: UserInfo', function(){
-  var userInfo;
+  var userInfo, fakeSearch, q, scope;
   var items = [
     {
       "login": "tansaku",
       "avatar_url": "https://avatars.githubusercontent.com/u/30216?v=3",
-      "html_url": "https://github.com/tansaku",
+      "url": "https://github.com/tansaku",
       "numRepos": 56,
       "numFollowers": 59
     }]
@@ -14,18 +14,25 @@ describe('factory: UserInfo', function(){
       }]
 
   beforeEach(module('GitUserSearch'));
+  beforeEach(function(){
+    module(function ($provide) {
+     fakeSearch = jasmine.createSpyObj('fakeSearch', ['query']); // here we create and inject a fakeService with a 'query' property
+      $provide.factory('Search', function(){
+        return fakeSearch;
+      });
+    });
+  });
 
-  beforeEach(inject(function(UserInfo) {
+
+  beforeEach(inject(function(UserInfo, $q, $rootScope) {
+    scope = $rootScope.$new();
     userInfo = UserInfo;
+    q = $q;
+    fakeSearch.query.and.returnValue(q.when({data: { items: items }})); // returns a "fake" promise
   }));
 
   beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend
-    httpBackend
-      .whenGET("https://api.github.com/search/users?access_token=11e546dd2886d4799f234523670bc19cee552d2e&q=hello")
-      .respond(
-        { items: searchResults }
-      );
     httpBackend
       .whenGET("https://github.com/tansaku?access_token=11e546dd2886d4799f234523670bc19cee552d2e")
       .respond(
@@ -39,5 +46,6 @@ describe('factory: UserInfo', function(){
       expect(response).toEqual([{items: items}])
     })
     httpBackend.flush();
+    //scope.apply();
   });
 })
