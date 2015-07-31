@@ -1,21 +1,11 @@
-githubUserSearch.factory('UserInfo', ['$http', 'Search', '$q', function($http, Search, $q){
-  var getUserInfo = function(user_url){
-    return $http({
-      url: user_url,
-      method: 'GET',
-      params: {
-        'access_token': '11e546dd2886d4799f234523670bc19cee552d2e'
-      }
-    })
-  };
-
+githubUserSearch.factory('UserInfo', ['Search', '$q', function(Search, $q){
   var getDataFromResponses = function(responses) {
     return responses.map(function(response) { return response.data})
   }
 
   var getAllUsers = function(users){
     return users.map(function(user){
-      return getUserInfo(user.url)
+      return Search.getUserInfo(user.url)
     })
   }
 

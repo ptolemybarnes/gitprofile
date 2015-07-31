@@ -21,6 +21,11 @@ describe('factory: Search', function() {
       .respond(
         { items: items }
       );
+    httpBackend
+      .whenGET("https://api.github.com/users/tansaku?access_token=11e546dd2886d4799f234523670bc19cee552d2e")
+      .respond(
+        { items: items }
+      );
   }));
 
   beforeEach(inject(function(Search) {
@@ -33,6 +38,14 @@ describe('factory: Search', function() {
 
   it ('returns search results', function() {
     search.query('hello')
+    .then(function(response){
+      expect(response.data.items).toEqual(items)
+    })
+    httpBackend.flush();
+  })
+
+  it ('returns user results', function() {
+    search.getUserInfo('https://api.github.com/users/tansaku')
     .then(function(response){
       expect(response.data.items).toEqual(items)
     })
