@@ -29,7 +29,7 @@ describe('when searching for a user', function() {
 
   beforeEach(inject(function ($q, $rootScope) {
     scope = $rootScope;
-    fakeUserInfo.query.and.returnValue($q.when(items)); // returns a "fake" promise
+    fakeUserInfo.query.and.returnValue({then: function(call) {call(items)}}); // returns a "fake" promise
   }));
 
   beforeEach(inject(function($controller) {
@@ -46,7 +46,7 @@ describe('when searching for a user', function() {
   it('displays search results', function() {
     ctrl.searchTerm = 'hello';
     ctrl.doSearch();
-    scope.$apply();
+//    scope.$apply();
     console.log(ctrl.searchResult)
     expect(ctrl.searchResult).toEqual(items);
   });
