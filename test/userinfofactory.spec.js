@@ -22,12 +22,12 @@ describe('factory: UserInfo', function(){
   beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend
     httpBackend
-      .whenGET("https://api.github.com/search/users?access_token=000b78cf358b659afabc54a0253a13e91969d50c&q=hello")
+      .whenGET("https://api.github.com/search/users?access_token=11e546dd2886d4799f234523670bc19cee552d2e&q=hello")
       .respond(
         { items: searchResults }
       );
     httpBackend
-      .whenGET("https://github.com/tansaku?access_token=000b78cf358b659afabc54a0253a13e91969d50c")
+      .whenGET("https://github.com/tansaku?access_token=11e546dd2886d4799f234523670bc19cee552d2e")
       .respond(
         { items: items }
       );

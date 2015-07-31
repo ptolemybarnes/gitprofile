@@ -4,7 +4,7 @@ githubUserSearch.factory('UserInfo', ['$http', 'Search', '$q', function($http, S
       url: user_url,
       method: 'GET',
       params: {
-        'access_token': '000b78cf358b659afabc54a0253a13e91969d50c'
+        'access_token': '11e546dd2886d4799f234523670bc19cee552d2e'
       }
     })
   };

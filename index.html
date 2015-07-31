@@ -27,7 +27,7 @@
             <a class="githubUser" ng-href="{{user.html_url}}">{{user.login}}</a>
             <p>Followers: {{user.followers}}</p>
             <p>Repos: {{user.public_repos}}</p>
-            <p ng-show="{{user.email}}">Email: {{user.email}}</p>
+            <p ng-show="{{!!user.email}}">Email: {{user.email}}</p>
           </li>
         </ul>
       </div>
