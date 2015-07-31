@@ -16,27 +16,21 @@ describe('when searching for a user', function() {
   beforeEach(module('GitUserSearch'));
   var httpBackend;
   var ctrl;
-
-  beforeEach(inject(function ($httpBackend) {
-    httpBackend = $httpBackend
-    httpBackend
-      .expectGET("https://api.github.com/search/users?access_token=11e546dd2886d4799f234523670bc19cee552d2e&q=hello")
-      .respond(
-        { items: items }
-      );
-      httpBackend
-        .whenGET("https://github.com/tansaku?access_token=11e546dd2886d4799f234523670bc19cee552d2e")
-        .respond(
-          items[0]
-        );
-    }));
-
-    afterEach(function() {
-      httpBackend.verifyNoOutstandingExpectation();
-      httpBackend.verifyNoOutstandingRequest();
+  var fakeUserInfo;
+  var scope;
+  beforeEach(function(){
+    module(function ($provide) {
+     fakeUserInfo = jasmine.createSpyObj('fakeUserInfo', ['query']); // here we create and inject a fakeService with a 'query' property
+      $provide.factory('UserInfo', function(){
+        return fakeUserInfo;
+      });
     });
+  });
 
-
+  beforeEach(inject(function ($q, $rootScope) {
+    scope = $rootScope;
+    fakeUserInfo.query.and.returnValue($q.when(items)); // returns a "fake" promise
+  }));
 
   beforeEach(inject(function($controller) {
     ctrl = $controller('GitUserSearchController');
@@ -52,7 +46,8 @@ describe('when searching for a user', function() {
   it('displays search results', function() {
     ctrl.searchTerm = 'hello';
     ctrl.doSearch();
-    httpBackend.flush();
+    scope.$apply();
+    console.log(ctrl.searchResult)
     expect(ctrl.searchResult).toEqual(items);
   });
 });
