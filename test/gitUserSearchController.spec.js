@@ -1,40 +1,31 @@
 describe('GitUserSearchController', function() {
-  beforeEach(module('GitUserSearch'));
-  var ctrl;
+  beforeEach(module('GitUserSearch')); // loads the angular module
+  var httpBackend, ctrl, fakeUserInfo, rootScope;
 
-  beforeEach(inject(function($controller) {
-    ctrl = $controller('GitUserSearchController');
-  }));
+  // this is v v bad
+  //
+//  beforeEach(function(){
+//    module(function($provide) { // does something different to the above
+//    fakeUserInfo = jasmine.createSpyObj('fakeUserInfo', ['query']); // here we create and inject a fakeService with a 'query' property
+//      $provide.factory('UserInfo', function(){
+//        return fakeUserInfo;
+//      });
+//    });
+//  });
+//
 
-  it('intialises with an empty search result and term', function() {
-    expect(ctrl.searchResult).toBeUndefined();
-    expect(ctrl.searchTerm).toBeUndefined();
+  // this is a bit nicer
+  beforeEach(function() {
+    fakeUserInfo = jasmine.createSpyObj('fakeUserInfo', ['query']); // here we create and inject a fakeService with a 'query' property
+    module( { UserInfo: fakeUserInfo } );
   });
-});
-
-describe('when searching for a user', function() {
-  beforeEach(module('GitUserSearch'));
-  var httpBackend;
-  var ctrl;
-  var fakeUserInfo;
-  var scope;
-  beforeEach(function(){
-    module(function ($provide) {
-     fakeUserInfo = jasmine.createSpyObj('fakeUserInfo', ['query']); // here we create and inject a fakeService with a 'query' property
-      $provide.factory('UserInfo', function(){
-        return fakeUserInfo;
-      });
-    });
-  });
-
-  beforeEach(inject(function ($q, $rootScope) {
-    scope = $rootScope;
+  
+  beforeEach(inject(function($controller, $q, $rootScope) { // can't happen before the call to module. This isn't (?) doing stuff in the background. It's just giving you stuff.
+    ctrl      = $controller('GitUserSearchController');
+    rootScope = $rootScope;
     fakeUserInfo.query.and.returnValue($q.when(items)); // returns a "fake" promise
   }));
 
-  beforeEach(inject(function($controller) {
-    ctrl = $controller('GitUserSearchController');
-  }));
   var items = [
     {
       "login": "tansaku",
@@ -46,8 +37,8 @@ describe('when searching for a user', function() {
   it('displays search results', function() {
     ctrl.searchTerm = 'hello';
     ctrl.doSearch();
-    scope.$apply();
-    console.log(ctrl.searchResult)
+    rootScope.$digest(); // triggers the scope digest.
     expect(ctrl.searchResult).toEqual(items);
   });
 });
+

@@ -1,6 +1,6 @@
 githubUserSearch.factory('UserInfo', ['Search', '$q', function(Search, $q){
   var getDataFromResponses = function(responses) {
-    return responses.map(function(response) { return response.data})
+    return responses.map(function(response) { return response.data })
   }
 
   var getAllUsers = function(users){
